@@ -1,0 +1,24 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<div style="text-align:center">
+  <h1>
+    Welcome to {{ title }}!
+  </h1>
+
+  <h1>
+    Hi {{ title1 }}
+  </h1>
+  
+  <label>Enter number1:  </label>
+  <input type = "text"  #number1 >
+  <!-- <input type = "text"   > -->
+  <br><br>
+  <label>Enter number2:  </label>
+  <input type = "text" #number2  > 
+  <!-- <input type = "text"  > -->
+  <br><br>
+  <button (click)="add(number1.value,number2.value)">Add</button>
+  <!-- <button (click)="add()">Add</button> -->
+  <br><br>
+  <label>Addition of two numbers : {{result}}  </label>
+</div>
+<router-outlet></router-outlet>
