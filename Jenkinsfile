@@ -37,12 +37,12 @@ node {
     }
     stage('Archive') {
         echo 'Zip build package for deployment'
-        bat 'tar -cvzf dist.tar.gz --strip-components=1 dist'
-        archiveArtifacts 'dist.tar.gz'
+        bat 'tar -cvzf tssidemofedist.tar.gz --strip-components=1 dist'
+        archiveArtifacts 'tssidemofedist.tar.gz'
     }
     stage('Approve') {
          milestone()
-         mail bcc: '', body: 'TSSIDemoPL project is built and ready for deployment upon approval.', cc: '', from: '', replyTo: '', subject: 'TSSIDemoPL Build Ready', to: 'samrat.mitra@vodafone.com'
+         mail bcc: '', body: 'TSSIDemoPL_FE project is built and ready for deployment upon approval.', cc: '', from: '', replyTo: '', subject: 'TSSIDemoPL_FE Build Ready', to: 'samrat.mitra@vodafone.com'
          timeout(time: 1, unit: 'MINUTES') {
             input 'Deploy package ?'
         } 
@@ -50,7 +50,7 @@ node {
     stage('Deploy') {
         milestone()
         echo 'Deploying package to tomcat'
-        bat 'copy dist.tar.gz C:\\apache-tomcat-9.0.20\\webapps\\'
-        bat 'tar xvzf C:\\apache-tomcat-9.0.20\\webapps\\dist.tar.gz -C C:\\apache-tomcat-9.0.20\\webapps\\'
+        bat 'copy tssidemofedist.tar.gz C:\\apache-tomcat-9.0.20\\webapps\\'
+        bat 'tar xvzf C:\\apache-tomcat-9.0.20\\webapps\\tssidemofedist.tar.gz -C C:\\apache-tomcat-9.0.20\\webapps\\'
     }
 }
