@@ -18,7 +18,7 @@ node {
         echo 'Fetching latest code from GIT'
         //deleteDir()
         //git credentialsId: '36587512-8b14-4789-bf67-1419220502a5', url: 'https://github.com/snehal132/FE.git'
-        //checkout scm
+        checkout scm
     }
     stage('Install'){
         echo 'Updating node modules'
@@ -40,9 +40,17 @@ node {
         bat 'tar -cvzf dist.tar.gz --strip-components=1 dist'
         archiveArtifacts 'dist.tar.gz'
     }
+    stage('Approve') {
+         milestone()
+         mail bcc: '', body: 'TSSIDemoPL project is built and ready for deployment upon approval.', cc: '', from: '', replyTo: '', subject: 'TSSIDemoPL Build Ready', to: 'samrat.mitra@vodafone.com'
+         timeout(time: 1, unit: 'MINUTES') {
+            input 'Deploy package ?'
+        } 
+    }
     stage('Deploy') {
         milestone()
         echo 'Deploying package to tomcat'
+        bat 'copy dist.tar.gz C:\\apache-tomcat-9.0.20\\webapps\\'
         bat 'tar xvzf C:\\apache-tomcat-9.0.20\\webapps\\dist.tar.gz -C C:\\apache-tomcat-9.0.20\\webapps\\'
     }
 }
